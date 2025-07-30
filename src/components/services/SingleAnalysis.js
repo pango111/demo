@@ -10,16 +10,24 @@ const SingleAnalysis = ({ setCurrentPage, apiService, apiConnected }) => {
   const [error, setError] = useState(null);
 
   const analyzeText = async () => {
+    console.log('=== ANALYSIS START ===');
+    
     if (!inputText.trim()) {
+      console.log('No input text provided');
       alert('Please enter some text to analyze');
       return;
     }
+
+    console.log('Input text:', inputText.substring(0, 100) + '...');
+    console.log('Job title:', jobTitle);
 
     setIsAnalyzing(true);
     setError(null);
     setResult(null);
 
     try {
+      console.log('Making API call to:', 'https://function1.onrender.com/api/predict');
+      
       // Call real API with your backend
       const response = await fetch('https://function1.onrender.com/api/predict', {
         method: 'POST',
@@ -33,11 +41,23 @@ const SingleAnalysis = ({ setCurrentPage, apiService, apiConnected }) => {
         })
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
+
+      // 添加调试信息
+      console.log('=== BACKEND RESPONSE DEBUG ===');
+      console.log('Success:', data.success);
+      console.log('Skills data:', data.skills);
+      console.log('Skill count:', data.skills?.skill_count);
+      console.log('Extracted skills:', data.skills?.extracted_skills);
+      console.log('Full response:', JSON.stringify(data, null, 2));
+      console.log('=== END DEBUG ===');
 
       if (data.success) {
         // Transform API response to match expected format
@@ -61,9 +81,13 @@ const SingleAnalysis = ({ setCurrentPage, apiService, apiConnected }) => {
       }
 
     } catch (err) {
-      console.error('Analysis error:', err);
+      console.error('=== ERROR OCCURRED ===');
+      console.error('Error details:', err);
+      console.error('Error message:', err.message);
+      console.error('=== END ERROR ===');
       setError(`Analysis failed: ${err.message}`);
     } finally {
+      console.log('=== ANALYSIS END ===');
       setIsAnalyzing(false);
     }
   };
