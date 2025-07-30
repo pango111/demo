@@ -15,11 +15,6 @@ const SingleAnalysis = ({ setCurrentPage, apiService, apiConnected }) => {
       return;
     }
 
-    if (!apiConnected) {
-      alert('Backend service is not connected. Please check your connection.');
-      return;
-    }
-
     setIsAnalyzing(true);
     setError(null);
     setResult(null);
@@ -136,11 +131,11 @@ const SingleAnalysis = ({ setCurrentPage, apiService, apiConnected }) => {
           </p>
         </div>
 
-        {/* Connection Status Warning */}
-        {!apiConnected && (
+        {/* Connection Status Warning - Only show if there's an actual connection error */}
+        {error && error.includes('fetch') && (
           <div className="mb-6 bg-red-50 border-2 border-red-200 rounded-2xl p-4">
-            <div className="text-red-800 font-semibold">Backend service is not connected</div>
-            <div className="text-red-600">Please check your network connection or try again later</div>
+            <div className="text-red-800 font-semibold">Connection Error</div>
+            <div className="text-red-600">Unable to connect to the analysis service</div>
           </div>
         )}
 
@@ -182,7 +177,7 @@ const SingleAnalysis = ({ setCurrentPage, apiService, apiConnected }) => {
               <button 
                 className="flex-1 min-w-[200px] bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-xl hover:from-green-700 hover:to-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-2" 
                 onClick={analyzeText} 
-                disabled={isAnalyzing || !inputText.trim() || !apiConnected}
+                disabled={isAnalyzing || !inputText.trim()}
               >
                 {isAnalyzing ? (
                   <>
