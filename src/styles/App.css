@@ -100,3 +100,38 @@
     @apply bg-white text-black;
   }
 }
+
+
+/* 在 src/styles/App.css 中添加这些样式 */
+
+html, body {
+  scroll-behavior: auto !important;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-padding-top: 0 !important;
+}
+
+body {
+  scroll-margin-top: 0 !important;
+}
+
+#root {
+  scroll-margin-top: 0 !important;
+}
+
+.App {
+  scroll-margin-top: 0 !important;
+}
+
+* {
+  scroll-margin-top: 0 !important;
+  scroll-padding-top: 0 !important;
+}
+
+/* 确保没有平滑滚动干扰 */
+*, *::before, *::after {
+  scroll-behavior: auto !important;
+}
+
