@@ -252,7 +252,7 @@ const HomePage = ({ setCurrentPage }) => {
 
   // About Section统计数据
   const aboutStats = [
-    { number: '10,000+', label: 'Job Descriptions Analyzed', icon: Database },
+    { number: '1,000+', label: 'Job Descriptions Analyzed', icon: Database },
     { number: '6', label: 'Professional Domains', icon: Target },
     { number: '84%', label: 'Skill Matching Accuracy', icon: Zap },
     { number: '24/7', label: 'Response Efficiency', icon: Clock }
@@ -340,9 +340,9 @@ const HomePage = ({ setCurrentPage }) => {
                     Analysis Platform
                   </div>
                   <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                    Strategic Solutions for{' '}
+                    Solutions for{' '}
                     <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-                      Skill Analysis And Curriculum Mapping
+                      Skill Extraction And Curriculum Mapping
                     </span>
                   </h1>
                   <p className="text-xl text-gray-600 leading-relaxed">
@@ -460,7 +460,7 @@ const HomePage = ({ setCurrentPage }) => {
                 {/* Simplified Main Description */}
                 <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 mb-6">
                   <p className="text-gray-700 font-medium">
-                    Our platform leverages machine learning models to analyze cybersecurity job descriptions and extract meaningful skill requirements across 6 specialized domains. We help organizations understand market demands and align their training programs accordingly.
+                    Our platform leverages machine learning models to analyze cybersecurity job descriptions and extract meaningful skill requirements across 6 specialized domains.
                   </p>
                 </div>
 
