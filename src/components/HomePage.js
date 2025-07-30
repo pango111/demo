@@ -252,7 +252,7 @@ const HomePage = ({ setCurrentPage }) => {
 
   // About Section统计数据
   const aboutStats = [
-    { number: '10,00+', label: 'Job Descriptions Analyzed', icon: Database },
+    { number: '1,000+', label: 'Job Descriptions Analyzed', icon: Database },
     { number: '6', label: 'Professional Domains', icon: Target },
     { number: '84%', label: 'Skill Matching Accuracy', icon: Zap },
     { number: '24/7', label: 'Response Efficiency', icon: Clock }
