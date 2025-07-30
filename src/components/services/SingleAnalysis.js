@@ -1,44 +1,116 @@
 // src/components/services/SingleAnalysis.js
 import React, { useState } from 'react';
 import { ArrowLeft, Upload, Sparkles, Briefcase, FileText, Tag, Target } from 'lucide-react';
-import { MOCK_SINGLE_RESULT } from '../../data/mockData';
 
-const SingleAnalysis = ({ setCurrentPage }) => {
+const SingleAnalysis = ({ setCurrentPage, apiService, apiConnected }) => {
   const [jobTitle, setJobTitle] = useState('');
   const [inputText, setInputText] = useState('');
   const [result, setResult] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [error, setError] = useState(null);
 
-  const analyzeText = () => {
+  const analyzeText = async () => {
     if (!inputText.trim()) {
       alert('Please enter some text to analyze');
       return;
     }
 
-    setIsAnalyzing(true);
+    if (!apiConnected) {
+      alert('Backend service is not connected. Please check your connection.');
+      return;
+    }
 
-    setTimeout(() => {
-      const mockResult = {
-        ...MOCK_SINGLE_RESULT,
-        model_info: {
-          ...MOCK_SINGLE_RESULT.model_info,
-          timestamp: new Date().toISOString()
-        }
-      };
-      setResult(mockResult);
+    setIsAnalyzing(true);
+    setError(null);
+    setResult(null);
+
+    try {
+      // Call real API with your backend
+      const response = await fetch('https://function1.onrender.com/api/predict', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: jobTitle || 'Cybersecurity Position',
+          skillset: inputText,
+          explain_skills: true
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Transform API response to match expected format
+        const transformedResult = {
+          success: true,
+          prediction: data.prediction,
+          skills: {
+            skill_count: data.skills.skill_count,
+            extracted_skills: data.skills.extracted_skills.map(skill => ({
+              name: skill,
+              description: getSkillDescription(skill)
+            }))
+          },
+          skill_explanations: data.skill_explanations,
+          model_info: data.model_info
+        };
+        
+        setResult(transformedResult);
+      } else {
+        throw new Error(data.error || 'Analysis failed');
+      }
+
+    } catch (err) {
+      console.error('Analysis error:', err);
+      setError(`Analysis failed: ${err.message}`);
+    } finally {
       setIsAnalyzing(false);
-    }, 1500);
+    }
+  };
+
+  // Helper function to get skill descriptions
+  const getSkillDescription = (skillName) => {
+    const skillDescriptions = {
+      'python': 'A versatile programming language widely used in cybersecurity for automation, scripting, and security tool development.',
+      'penetration testing': 'Ethical hacking methodology to identify vulnerabilities and security weaknesses in systems and applications.',
+      'siem': 'Security Information and Event Management systems for real-time analysis of security alerts and log management.',
+      'incident response': 'Systematic approach to handling security breaches, cyber attacks, and other security incidents.',
+      'vulnerability assessment': 'Process of identifying, quantifying, and prioritizing security vulnerabilities in systems.',
+      'burp suite': 'Comprehensive web application security testing platform used by security professionals.',
+      'nmap': 'Network discovery and security auditing tool for network exploration and vulnerability assessment.',
+      'metasploit': 'Penetration testing framework that helps verify vulnerabilities and manage security assessments.',
+      'firewall': 'Network security system that monitors and controls incoming and outgoing network traffic.',
+      'linux': 'Open-source operating system essential for cybersecurity professionals and security operations.',
+      'windows': 'Microsoft operating system requiring specialized security knowledge for enterprise environments.',
+      'aws': 'Amazon Web Services cloud platform with extensive security services and compliance frameworks.',
+      'azure': 'Microsoft cloud computing platform with integrated security and identity management services.',
+      'docker': 'Containerization platform requiring security considerations for deployment and orchestration.',
+      'kubernetes': 'Container orchestration platform with complex security requirements and configurations.',
+      'cybersecurity': 'Comprehensive field focused on protecting digital assets, networks, and information systems.',
+      'digital forensics': 'Scientific investigation and analysis of digital evidence for legal and security purposes.',
+      'malware analysis': 'Process of studying malicious software to understand its behavior and develop countermeasures.',
+      'risk assessment': 'Systematic evaluation of potential security risks and their impact on organizational assets.'
+    };
+
+    return skillDescriptions[skillName.toLowerCase()] || 
+           `${skillName} is a technology or skill relevant to cybersecurity and information security domains.`;
   };
 
   const loadSampleText = () => {
     setJobTitle('Senior Security Architect');
-    setInputText('Led security architecture initiatives for enterprise cloud migration, implementing zero-trust frameworks and identity access management systems. Conducted threat assessments and vulnerability analyses, ensuring compliance with ISO27001 and GDPR regulations. Managed incident response procedures and coordinated with SOC teams for continuous security monitoring.');
+    setInputText('Led security architecture initiatives for enterprise cloud migration, implementing zero-trust frameworks and identity access management systems. Conducted threat assessments and vulnerability analyses, ensuring compliance with ISO27001 and GDPR regulations. Managed incident response procedures and coordinated with SOC teams for continuous security monitoring. Experience with SIEM platforms, penetration testing tools, and DevSecOps practices.');
   };
 
   const clearAnalysis = () => {
     setJobTitle('');
     setInputText('');
     setResult(null);
+    setError(null);
   };
 
   return (
@@ -63,6 +135,14 @@ const SingleAnalysis = ({ setCurrentPage }) => {
             Extract cybersecurity skills from job descriptions or resumes across 6 specialized domains
           </p>
         </div>
+
+        {/* Connection Status Warning */}
+        {!apiConnected && (
+          <div className="mb-6 bg-red-50 border-2 border-red-200 rounded-2xl p-4">
+            <div className="text-red-800 font-semibold">Backend service is not connected</div>
+            <div className="text-red-600">Please check your network connection or try again later</div>
+          </div>
+        )}
 
         {/* Main Form */}
         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 mb-8">
@@ -102,7 +182,7 @@ const SingleAnalysis = ({ setCurrentPage }) => {
               <button 
                 className="flex-1 min-w-[200px] bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-xl hover:from-green-700 hover:to-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-2" 
                 onClick={analyzeText} 
-                disabled={isAnalyzing || !inputText.trim()}
+                disabled={isAnalyzing || !inputText.trim() || !apiConnected}
               >
                 {isAnalyzing ? (
                   <>
@@ -147,6 +227,14 @@ const SingleAnalysis = ({ setCurrentPage }) => {
           </div>
         )}
 
+        {/* Error Display */}
+        {error && (
+          <div className="bg-red-50 border-2 border-red-200 rounded-2xl p-6 mb-8">
+            <div className="text-red-800 font-semibold text-lg">Analysis Error</div>
+            <div className="text-red-600">{error}</div>
+          </div>
+        )}
+
         {/* Results */}
         {result && (
           <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
@@ -188,6 +276,24 @@ const SingleAnalysis = ({ setCurrentPage }) => {
                 ))}
               </div>
             </div>
+
+            {/* AI Skill Explanations */}
+            {result.skill_explanations && result.skill_explanations.success && (
+              <div className="mb-6">
+                <h4 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <Sparkles className="h-5 w-5 text-purple-600" />
+                  AI Skill Explanations
+                </h4>
+                <div className="space-y-4">
+                  {Object.entries(result.skill_explanations.skill_explanations).map(([skillName, explanation]) => (
+                    <div key={skillName} className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 p-4 rounded-xl">
+                      <h5 className="font-semibold text-purple-900 mb-2">{skillName}</h5>
+                      <p className="text-purple-700 text-sm">{explanation}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Model Info */}
             <div className="pt-6 border-t border-gray-200">
