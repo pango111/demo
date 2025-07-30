@@ -340,7 +340,7 @@ const HomePage = ({ setCurrentPage }) => {
                     Analysis Platform
                   </div>
                   <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                    Strategic Solutions for{' '}
+                    Solutions for{' '}
                     <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
                       Skill Extraction And Curriculum Mapping
                     </span>
