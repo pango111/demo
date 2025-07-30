@@ -31,19 +31,82 @@ const CourseMapping = ({ setCurrentPage }) => {
     setLearningOutcomes(COURSE_INPUT.learningOutcomes || '');
   };
 
-  const analyzeCourse = () => {
+  const analyzeCourse = async() => {
     if (!targetDomain || !courseTitle || !courseDescription) {
       alert('Please fill in all required fields');
       return;
     }
 
+    const skillSets = {
+      'CyberSecurity Consultant': [
+        'Risk Assessment', 'Security Auditing', 'Client Advisory',
+        'Compliance Management', 'Policy Development', 'ISO27001',
+        'Security Awareness Training', 'Threat Intelligence'
+      ],
+      'CyberSecurity Analyst': [
+        'Incident Detection', 'Log Analysis', 'SIEM Tools (Splunk, QRadar)',
+        'Threat Intelligence', 'Vulnerability Scanning', 'Data Loss Prevention',
+        'Phishing Detection', 'SOC Operations'
+      ],
+      'CyberSecurity Architect': [
+        'Security Architecture Design', 'Network Security', 'Cloud Security',
+        'Zero Trust Design', 'Identity and Access Management (IAM)',
+        'Security Frameworks (NIST, SABSA)', 'Cryptographic Protocols'
+      ],
+      'CyberSecurity Operations': [
+        'Security Monitoring', 'Firewall Management', 'Intrusion Detection Systems',
+        'Patch Management', 'Operational Risk Analysis', 'Endpoint Protection',
+        'Security Automation & Orchestration'
+      ],
+      'Information Security': [
+        'GDPR Compliance', 'Privacy-by-Design', 'Anonymization & K-Anonymity',
+        'Data Governance', 'Data Privacy Principles', 'Differential Privacy',
+        'Privacy Risk Assessment', 'Privacy Frameworks (PIA, Policies)',
+        'ISO27001', 'Security Policies', 'Access Control'
+      ],
+      'CyberSecurity Testers': [
+        'Penetration Testing', 'Vulnerability Assessment', 'Exploit Development',
+        'Web Application Security', 'Security Testing Tools (Burp Suite, Nessus)',
+        'Red Teaming', 'Social Engineering Simulation', 'OWASP Top 10'
+      ]
+    };
+
+// 开始分析
     setIsAnalyzing(true);
 
-    setTimeout(() => {
-      const mockResults = generateMockResults(targetDomain, courseTitle, courseDescription, learningOutcomes);
-      setResults(mockResults);
-      setIsAnalyzing(false);
-    }, 2000);
+    // setTimeout(() => {
+    // const mockResults = generateMockResults(targetDomain, courseTitle, courseDescription, learningOutcomes);
+    //   setResults(mockResults);
+    //   setIsAnalyzing(false);
+    // }, 2000);
+
+    // 抓取目标skills
+    const selectedSkills = skillSets[targetDomain] || [];
+
+    fetch("https://vri-projects-backend.onrender.com/mapping", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        syllabus: courseDescription,
+        skills: selectedSkills
+      })
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setResults(data);
+      })
+      .catch((err) => {
+        console.error("Mapping failed:", err);
+        alert("Error occurred while analyzing the course.");
+      })
+      .finally(() => {
+        setIsAnalyzing(false);
+      });
+
+
+
+
+    // setIsAnalyzing(false);
   };
 
   // Generate mock results - keeping your logic
@@ -279,15 +342,15 @@ const CourseMapping = ({ setCurrentPage }) => {
               <div className="bg-gray-200 rounded-full h-4 mb-4 overflow-hidden">
                 <div 
                   className="h-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full transition-all duration-1000 flex items-center justify-end pr-2" 
-                  style={{ width: `${results.coverage}%` }}
+                  style={{ width: `${results.summary.coverage}` }}
                 >
                   <span className="text-white text-xs font-bold">
-                    {results.coverage >= 20 ? `${results.coverage}%` : ''}
+                    {results.summary.coverage >= 20 ? `${results.summary.coverage}%` : ''}
                   </span>
                 </div>
               </div>
               <p className="text-center text-lg font-semibold text-gray-700">
-                {results.coverage}% Skill Coverage Match
+                {results.summary.coverage} Skill Coverage Match
               </p>
             </div>
 
@@ -296,18 +359,18 @@ const CourseMapping = ({ setCurrentPage }) => {
               <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
                 <h4 className="text-xl font-bold text-green-800 mb-4 flex items-center gap-2">
                   <CheckCircle className="h-6 w-6" />
-                  Matched Skills ({results.matchedSkills.length})
+                  Matched Skills ({results.summary.matched_skills})
                 </h4>
                 <div className="space-y-2">
-                  {results.matchedSkills.map((skill, i) => (
+                  {results.matches.map((match, i) => (
                     <div key={i} className="bg-white px-4 py-3 rounded-lg border border-green-200 shadow-sm">
                       <span className="text-green-800 font-medium flex items-center gap-2">
                         <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                        {skill}
+                        {match.skill}
                       </span>
                     </div>
                   ))}
-                  {results.matchedSkills.length === 0 && (
+                  {results.summary.matched_skills === 0 && (
                     <p className="text-green-700 italic">No matching skills found</p>
                   )}
                 </div>
@@ -317,10 +380,10 @@ const CourseMapping = ({ setCurrentPage }) => {
               <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-xl p-6 border border-red-200">
                 <h4 className="text-xl font-bold text-red-800 mb-4 flex items-center gap-2">
                   <XCircle className="h-6 w-6" />
-                  Missing Skills ({results.missingSkills.length})
+                  Missing Skills ({results.unmatched.length})
                 </h4>
                 <div className="space-y-2">
-                  {results.missingSkills.map((skill, i) => (
+                  {results.unmatched.map((skill, i) => (
                     <div key={i} className="bg-white px-4 py-3 rounded-lg border border-red-200 shadow-sm">
                       <span className="text-red-800 font-medium flex items-center gap-2">
                         <span className="w-2 h-2 bg-red-500 rounded-full"></span>
@@ -328,7 +391,7 @@ const CourseMapping = ({ setCurrentPage }) => {
                       </span>
                     </div>
                   ))}
-                  {results.missingSkills.length === 0 && (
+                  {results.unmatched.length === 0 && (
                     <p className="text-red-700 italic">All required skills are covered!</p>
                   )}
                 </div>
