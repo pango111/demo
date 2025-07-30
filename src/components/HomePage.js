@@ -460,7 +460,7 @@ const HomePage = ({ setCurrentPage }) => {
                 {/* Simplified Main Description */}
                 <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 mb-6">
                   <p className="text-gray-700 font-medium">
-                    Our platform leverages machine learning models to analyze cybersecurity job descriptions and extract meaningful skill requirements across 6 specialized domains. We help organizations understand market demands and align their training programs accordingly.
+                    Our platform leverages machine learning models to analyze cybersecurity job descriptions and extract meaningful skill requirements across 6 specialized domains.
                   </p>
                 </div>
 
