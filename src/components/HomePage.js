@@ -252,7 +252,7 @@ const HomePage = ({ setCurrentPage }) => {
 
   // About Section统计数据
   const aboutStats = [
-    { number: '10,000+', label: 'Job Descriptions Analyzed', icon: Database },
+    { number: '10,00+', label: 'Job Descriptions Analyzed', icon: Database },
     { number: '6', label: 'Professional Domains', icon: Target },
     { number: '84%', label: 'Skill Matching Accuracy', icon: Zap },
     { number: '24/7', label: 'Response Efficiency', icon: Clock }
@@ -342,7 +342,7 @@ const HomePage = ({ setCurrentPage }) => {
                   <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
                     Strategic Solutions for{' '}
                     <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-                      Skill Analysis And Curriculum Mapping
+                      Skill Extraction And Curriculum Mapping
                     </span>
                   </h1>
                   <p className="text-xl text-gray-600 leading-relaxed">
