@@ -1,41 +1,45 @@
+// App.js 示例结构
 import React, { useState } from 'react';
-import './styles/index.css';
-
-// Import components
-import DemoHeader from './components/DemoHeader';
-import TabNavigation from './components/TabNavigation';
-import SingleAnalysis from './components/SingleAnalysis';
-import BatchProcessing from './components/BatchProcessing';
-import CourseMapping from './components/CourseMapping';
+import Navigation from './components/Navigation';
+import HomePage from './components/HomePage';
+import SingleAnalysis from './components/services/SingleAnalysis';
+import BatchProcessing from './components/services/BatchProcessing';
+import CourseMapping from './components/services/CourseMapping';
+import Footer from './components/Footer';
+// 在 src/index.js 或 src/App.js 顶部
+import './styles/App.css';
 
 function App() {
-  const [activeTab, setActiveTab] = useState('single');
+  const [currentPage, setCurrentPage] = useState('home');
 
-  const renderActiveComponent = () => {
-    switch (activeTab) {
-      case 'single':
-        return <SingleAnalysis />;
-      case 'batch':
-        return <BatchProcessing />;
-      case 'course':
-        return <CourseMapping />;
+  const renderCurrentPage = () => {
+    switch (currentPage) {
+      case 'home':
+        return <HomePage setCurrentPage={setCurrentPage} />;
+      // 在App.js的renderCurrentPage函数中
+      case 'batch-processing':
+        return <BatchProcessing setCurrentPage={setCurrentPage} />;
+      case 'single-analysis':
+        return <SingleAnalysis setCurrentPage={setCurrentPage} />;
+      case 'course-mapping':
+        return <CourseMapping setCurrentPage={setCurrentPage} />;
       default:
-        return <SingleAnalysis />;
+        return <HomePage setCurrentPage={setCurrentPage} />;
     }
   };
 
   return (
-    <div className="app">
-      <DemoHeader />
-      <TabNavigation 
-        activeTab={activeTab} 
-        setActiveTab={setActiveTab} 
-      />
-      <main className="main-content">
-        {renderActiveComponent()}
+    <div className="App">
+      <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      <main className="min-h-screen">
+        {renderCurrentPage()}
       </main>
+      <Footer />
     </div>
   );
 }
 
 export default App;
+
+
+

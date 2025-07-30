@@ -1,124 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#16a34a" />
-    <meta
-      name="description"
-      content="AI-powered job description analysis and skill-to-course mapping system for academic and professional development. Analyze curriculum alignment with industry requirements."
-    />
-    <meta name="keywords" content="AI, skill extraction, job analysis, course mapping, education, career development, curriculum alignment, educator tools" />
-    <meta name="author" content="Skill Extraction Demo Team" />
-    
-    <!-- Open Graph Meta Tags for social sharing -->
-    <meta property="og:title" content="Skill Extraction & Course Alignment System" />
-    <meta property="og:description" content="AI-powered job description analysis and skill-to-course mapping system for educators and career development professionals." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://skill-extraction-demo.vercel.app" />
-    <meta property="og:site_name" content="Skill Extraction Demo" />
-    
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Skill Extraction & Course Alignment System" />
-    <meta name="twitter:description" content="AI-powered job description analysis and skill-to-course mapping system" />
-    
-    <!-- Additional Meta Tags -->
-    <meta name="robots" content="index, follow" />
-    <meta name="language" content="English" />
-    <meta name="revisit-after" content="7 days" />
-    
-    <!-- Apple Touch Icon -->
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    
-    <!-- Manifest -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    
-    <title>Skill Extraction & Course Alignment System - AI-Powered Education Tool</title>
-    
-    <!-- Inline critical CSS for better performance -->
-    <style>
-      /* Critical loading styles */
-      body {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        background: linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #faf5ff 100%);
-      }
-      
-      /* Loading spinner */
-      .app-loading {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        flex-direction: column;
-      }
-      
-      .loading-spinner {
-        width: 40px;
-        height: 40px;
-        border: 4px solid #e5e7eb;
-        border-top: 4px solid #16a34a;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin-bottom: 16px;
-      }
-      
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-      
-      .loading-text {
-        color: #6b7280;
-        font-size: 16px;
-      }
-    </style>
-  </head>
-  <body>
-    <noscript>
-      <div style="padding: 20px; text-align: center; font-family: Arial, sans-serif;">
-        <h2>JavaScript Required</h2>
-        <p>You need to enable JavaScript to run this application.</p>
-        <p>This is an interactive AI-powered skill extraction and course alignment system that requires JavaScript for full functionality.</p>
-      </div>
-    </noscript>
-    
-    <!-- Loading screen shown while React loads -->
-    <div id="app-loading" class="app-loading">
-      <div class="loading-spinner"></div>
-      <div class="loading-text">Loading Skill Extraction System...</div>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#16a34a" />
+  <meta name="description" content="AI-powered job description analysis and skill-to-course mapping system for academic and professional development." />
+  <meta name="keywords" content="AI, skill extraction, job analysis, course mapping, education, career development, curriculum alignment, educator tools" />
+  <meta name="author" content="Skill Extraction Demo Team" />
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="English" />
+  <meta name="revisit-after" content="7 days" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Jost&family=Poppins&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
+  <!-- Template Main CSS File -->
+  <link href="%PUBLIC_URL%/main.css" rel="stylesheet" />
+
+  <!-- Page Title -->
+  <title>Skill Extraction & Course Alignment System - AI-Powered Education Tool</title>
+
+  <!-- Inline Critical CSS -->
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #faf5ff 100%);
+    }
+
+    .app-loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #e5e7eb;
+      border-top: 4px solid #16a34a;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      color: #6b7280;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- JavaScript Fallback -->
+  <noscript>
+    <div style="padding: 20px; text-align: center; font-family: Arial, sans-serif;">
+      <h2>JavaScript Required</h2>
+      <p>You need to enable JavaScript to run this application.</p>
     </div>
-    
-    <div id="root"></div>
-    
-    <!-- Remove loading screen once React mounts -->
-    <script>
-      window.addEventListener('DOMContentLoaded', function() {
-        setTimeout(function() {
-          const loading = document.getElementById('app-loading');
-          if (loading && document.getElementById('root').children.length > 0) {
-            loading.style.display = 'none';
-          }
-        }, 1000);
+  </noscript>
+
+  <!-- Initial Loading Spinner -->
+  <div id="app-loading" class="app-loading">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Loading Skill Extraction System...</div>
+  </div>
+
+  <!-- React Root -->
+  <div id="root"></div>
+
+  <!-- Hide Loading Spinner When React Loads -->
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      setTimeout(function () {
+        const loading = document.getElementById('app-loading');
+        if (loading && document.getElementById('root').children.length > 0) {
+          loading.style.display = 'none';
+        }
+      }, 1000);
+    });
+  </script>
+
+  <!-- Optional Template JS (Uncomment if needed) -->
+  <!-- <script src="%PUBLIC_URL%/main.js"></script> -->
+
+  <!-- Analytics Placeholder -->
+  <script>
+    if (typeof gtag !== 'undefined') {
+      gtag('config', 'GA_MEASUREMENT_ID', {
+        page_title: 'Skill Extraction Demo',
+        page_location: window.location.href
       });
-    </script>
-    
-    <!-- Simple analytics (replace with your tracking code) -->
-    <script>
-      // Basic page view tracking - replace with your analytics
-      if (typeof gtag !== 'undefined') {
-        gtag('config', 'GA_MEASUREMENT_ID', {
-          page_title: 'Skill Extraction Demo',
-          page_location: window.location.href
-        });
-      }
-    </script>
-  </body>
+    }
+  </script>
+</body>
 </html>
