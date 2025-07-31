@@ -10,21 +10,24 @@ const SingleAnalysis = ({ setCurrentPage, apiService, apiConnected }) => {
   const [error, setError] = useState(null);
 
   const analyzeText = async () => {
+    console.log('=== ANALYSIS START ===');
+    
     if (!inputText.trim()) {
+      console.log('No input text provided');
       alert('Please enter some text to analyze');
       return;
     }
 
-    if (!apiConnected) {
-      alert('Backend service is not connected. Please check your connection.');
-      return;
-    }
+    console.log('Input text:', inputText.substring(0, 100) + '...');
+    console.log('Job title:', jobTitle);
 
     setIsAnalyzing(true);
     setError(null);
     setResult(null);
 
     try {
+      console.log('Making API call to:', 'https://function1.onrender.com/api/predict');
+      
       // Call real API with your backend
       const response = await fetch('https://function1.onrender.com/api/predict', {
         method: 'POST',
@@ -38,11 +41,23 @@ const SingleAnalysis = ({ setCurrentPage, apiService, apiConnected }) => {
         })
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
+
+      // 添加调试信息
+      console.log('=== BACKEND RESPONSE DEBUG ===');
+      console.log('Success:', data.success);
+      console.log('Skills data:', data.skills);
+      console.log('Skill count:', data.skills?.skill_count);
+      console.log('Extracted skills:', data.skills?.extracted_skills);
+      console.log('Full response:', JSON.stringify(data, null, 2));
+      console.log('=== END DEBUG ===');
 
       if (data.success) {
         // Transform API response to match expected format
@@ -66,9 +81,13 @@ const SingleAnalysis = ({ setCurrentPage, apiService, apiConnected }) => {
       }
 
     } catch (err) {
-      console.error('Analysis error:', err);
+      console.error('=== ERROR OCCURRED ===');
+      console.error('Error details:', err);
+      console.error('Error message:', err.message);
+      console.error('=== END ERROR ===');
       setError(`Analysis failed: ${err.message}`);
     } finally {
+      console.log('=== ANALYSIS END ===');
       setIsAnalyzing(false);
     }
   };
@@ -136,11 +155,11 @@ const SingleAnalysis = ({ setCurrentPage, apiService, apiConnected }) => {
           </p>
         </div>
 
-        {/* Connection Status Warning */}
-        {!apiConnected && (
+        {/* Connection Status Warning - Only show if there's an actual connection error */}
+        {error && error.includes('fetch') && (
           <div className="mb-6 bg-red-50 border-2 border-red-200 rounded-2xl p-4">
-            <div className="text-red-800 font-semibold">Backend service is not connected</div>
-            <div className="text-red-600">Please check your network connection or try again later</div>
+            <div className="text-red-800 font-semibold">Connection Error</div>
+            <div className="text-red-600">Unable to connect to the analysis service</div>
           </div>
         )}
 
@@ -182,7 +201,7 @@ const SingleAnalysis = ({ setCurrentPage, apiService, apiConnected }) => {
               <button 
                 className="flex-1 min-w-[200px] bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-xl hover:from-green-700 hover:to-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-2" 
                 onClick={analyzeText} 
-                disabled={isAnalyzing || !inputText.trim() || !apiConnected}
+                disabled={isAnalyzing || !inputText.trim()}
               >
                 {isAnalyzing ? (
                   <>
