@@ -115,33 +115,69 @@ const CourseMapping = ({ setCurrentPage }) => {
       'CyberSecurity Consultant': [
         'Risk Assessment', 'Security Auditing', 'Client Advisory',
         'Compliance Management', 'Policy Development', 'ISO27001',
-        'Security Awareness Training', 'Threat Intelligence'
+        'Security Awareness Training', 'Threat Intelligence',
+        'SIEM Tools (Splunk, QRadar)', 'Vulnerability Scanning (Nessus, OpenVAS)',
+        'Penetration Testing (Metasploit, Burp Suite)', 'Firewall Configuration',
+        'IDS/IPS Deployment', 'Cloud Security (AWS, Azure, GCP)',
+        'Cryptography Standards', 'Data Loss Prevention (DLP)',
+        'NIST Framework', 'GDPR', 'PCI-DSS', 'Secure Configuration Baseline'
       ],
+
       'CyberSecurity Analyst': [
-        'Incident Detection', 'Log Analysis', 'SIEM Tools (Splunk, QRadar)',
-        'Threat Intelligence', 'Vulnerability Scanning', 'Data Loss Prevention',
-        'Phishing Detection', 'SOC Operations'
+        'Incident Detection', 'Log Analysis', 'SIEM Tools (Splunk, QRadar, ELK)',
+        'Threat Intelligence Platforms (MISP, ThreatConnect)', 'Vulnerability Scanning (Nessus, OpenVAS)',
+        'Data Loss Prevention (DLP)', 'Phishing Detection',
+        'Security Analytics', 'Network Traffic Analysis (Wireshark, Zeek)',
+        'IDS/IPS Monitoring (Snort, Suricata)', 'MITRE ATT&CK Framework',
+        'Endpoint Detection & Response (EDR)', 'SOAR Tools (Cortex XSOAR)',
+        'Sysmon Monitoring', 'YARA Rules', 'Windows Event Logging',
+        'Linux Auditd', 'Packet Capture Analysis'
       ],
+
       'CyberSecurity Architect': [
-        'Security Architecture Design', 'Network Security', 'Cloud Security',
-        'Zero Trust Design', 'Identity and Access Management (IAM)',
-        'Security Frameworks (NIST, SABSA)', 'Cryptographic Protocols'
+        'Security Architecture Design', 'Network Security Design', 'Cloud Security Architecture (AWS, Azure, GCP)',
+        'Zero Trust Architecture', 'IAM Systems Design (Okta, Azure AD)', 
+        'Security Frameworks (NIST, SABSA, CIS)', 'Cryptographic Protocols (TLS, SSH, IPsec)',
+        'PKI Infrastructure Design', 'Microsegmentation Strategies', 'Security Zoning',
+        'Container Security (Docker, Kubernetes, Aqua)', 'Secure SDLC Principles',
+        'Application Security Architecture', 'Infrastructure as Code Security (Terraform, Ansible)',
+        'Security Reference Architectures', 'Data Flow Modeling for Security',
+        'Secure Network Segmentation'
       ],
+
       'CyberSecurity Operations': [
-        'Security Monitoring', 'Firewall Management', 'Intrusion Detection Systems',
-        'Patch Management', 'Operational Risk Analysis', 'Endpoint Protection',
-        'Security Automation & Orchestration'
+        'Security Monitoring', 'Firewall Management (Palo Alto, Fortinet, Cisco ASA)',
+        'IDS/IPS Management (Snort, Suricata)', 'Patch Management Automation',
+        'Endpoint Protection Platforms (CrowdStrike, SentinelOne)', 'SIEM Operation (Splunk, IBM QRadar)',
+        'SOAR Integration (Cortex XSOAR, Splunk Phantom)', 'Vulnerability Management Lifecycle',
+        'Network Access Control (NAC)', 'Log Aggregation and Correlation',
+        'Incident Response Playbooks', 'Asset Inventory & Control',
+        'Anomaly Detection Systems', 'Linux/Windows Hardening',
+        'Security Baseline Enforcement (CIS Benchmarks)', 'Configuration Management (Ansible, Puppet)'
       ],
+
       'Information Security': [
         'GDPR Compliance', 'Privacy-by-Design', 'Anonymization & K-Anonymity',
-        'Data Governance', 'Data Privacy Principles', 'Differential Privacy',
-        'Privacy Risk Assessment', 'Privacy Frameworks (PIA, Policies)',
-        'ISO27001', 'Security Policies', 'Access Control'
+        'Data Governance Frameworks', 'Differential Privacy Techniques',
+        'Privacy Risk Assessment', 'Privacy Frameworks (PIA, ISO27701)',
+        'ISO27001 Implementation', 'Access Control Models (RBAC, ABAC)',
+        'Data Classification Schemes', 'Cryptographic Storage (AES, RSA)',
+        'Secure Data Transmission (TLS, VPN)', 'PII Protection',
+        'Data Masking', 'Database Security Controls (TDE, ACL)',
+        'Tokenization', 'Audit Logging and Monitoring'
       ],
+
       'CyberSecurity Testers': [
         'Penetration Testing', 'Vulnerability Assessment', 'Exploit Development',
-        'Web Application Security', 'Security Testing Tools (Burp Suite, Nessus)',
-        'Red Teaming', 'Social Engineering Simulation', 'OWASP Top 10'
+        'Web Application Security Testing (OWASP ZAP, Burp Suite)',
+        'Security Testing Tools (Nmap, Metasploit, Nessus, Nikto)',
+        'Red Team Techniques', 'Social Engineering Simulation',
+        'OWASP Top 10', 'Command Injection', 'Privilege Escalation',
+        'Buffer Overflow Exploits', 'Reverse Engineering (Ghidra, IDA Pro)',
+        'Network Scanning and Enumeration', 'Payload Generation (msfvenom)',
+        'Post-exploitation Frameworks (Empire, Cobalt Strike)',
+        'Mobile App Security Testing (MobSF)', 'Wireless Security Testing (Aircrack-ng)',
+        'Bypassing WAF/IDS', 'MITRE ATT&CK Red Team Mapping'
       ]
     };
 
