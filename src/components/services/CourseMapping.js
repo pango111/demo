@@ -41,80 +41,6 @@ const CourseMapping = ({ setCurrentPage }) => {
       'CyberSecurity Consultant': [
         'Risk Assessment', 'Security Auditing', 'Client Advisory',
         'Compliance Management', 'Policy Development', 'ISO27001',
-        'Security Awareness Training', 'Threat Intelligence'
-      ],
-      'CyberSecurity Analyst': [
-        'Incident Detection', 'Log Analysis', 'SIEM Tools (Splunk, QRadar)',
-        'Threat Intelligence', 'Vulnerability Scanning', 'Data Loss Prevention',
-        'Phishing Detection', 'SOC Operations'
-      ],
-      'CyberSecurity Architect': [
-        'Security Architecture Design', 'Network Security', 'Cloud Security',
-        'Zero Trust Design', 'Identity and Access Management (IAM)',
-        'Security Frameworks (NIST, SABSA)', 'Cryptographic Protocols'
-      ],
-      'CyberSecurity Operations': [
-        'Security Monitoring', 'Firewall Management', 'Intrusion Detection Systems',
-        'Patch Management', 'Operational Risk Analysis', 'Endpoint Protection',
-        'Security Automation & Orchestration'
-      ],
-      'Information Security': [
-        'GDPR Compliance', 'Privacy-by-Design', 'Anonymization & K-Anonymity',
-        'Data Governance', 'Data Privacy Principles', 'Differential Privacy',
-        'Privacy Risk Assessment', 'Privacy Frameworks (PIA, Policies)',
-        'ISO27001', 'Security Policies', 'Access Control'
-      ],
-      'CyberSecurity Testers': [
-        'Penetration Testing', 'Vulnerability Assessment', 'Exploit Development',
-        'Web Application Security', 'Security Testing Tools (Burp Suite, Nessus)',
-        'Red Teaming', 'Social Engineering Simulation', 'OWASP Top 10'
-      ]
-    };
-
-// 开始分析
-    setIsAnalyzing(true);
-
-    // setTimeout(() => {
-    // const mockResults = generateMockResults(targetDomain, courseTitle, courseDescription, learningOutcomes);
-    //   setResults(mockResults);
-    //   setIsAnalyzing(false);
-    // }, 2000);
-
-    // 抓取目标skills
-    const selectedSkills = skillSets[targetDomain] || [];
-
-    fetch("https://vri-projects-backend.onrender.com/mapping", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        syllabus: courseDescription,
-        skills: selectedSkills
-      })
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setResults(data);
-      })
-      .catch((err) => {
-        console.error("Mapping failed:", err);
-        alert("Error occurred while analyzing the course.");
-      })
-      .finally(() => {
-        setIsAnalyzing(false);
-      });
-
-
-
-
-    // setIsAnalyzing(false);
-  };
-
-  // Generate mock results - keeping your logic
-  const generateMockResults = (domain, title, description, outcomes) => {
-    const skillSets = {
-      'CyberSecurity Consultant': [
-        'Risk Assessment', 'Security Auditing', 'Client Advisory',
-        'Compliance Management', 'Policy Development', 'ISO27001',
         'Security Awareness Training', 'Threat Intelligence',
         'SIEM Tools (Splunk, QRadar)', 'Vulnerability Scanning (Nessus, OpenVAS)',
         'Penetration Testing (Metasploit, Burp Suite)', 'Firewall Configuration',
@@ -181,35 +107,32 @@ const CourseMapping = ({ setCurrentPage }) => {
       ]
     };
 
-    const domainSkills = skillSets[domain] || skillSets['Information Security'];
-    let courseSkills = [];
+// 开始分析
+    setIsAnalyzing(true);
 
-    if (domain === 'Information Security' && title.includes('Privacy')) {
-      courseSkills = COURSE_INPUT.extractedSkills;
-    } else {
-      courseSkills = domainSkills.slice(0, Math.floor(Math.random() * 4) + 3);
-    }
+    // 抓取目标skills
+    const selectedSkills = skillSets[targetDomain] || [];
 
-    const matchedSkills = domainSkills.filter(skill =>
-      courseSkills.some(cs => cs.includes(skill) || skill.includes(cs) || cs === skill)
-    );
-    const missingSkills = domainSkills.filter(skill => !matchedSkills.includes(skill));
-    const coverage = Math.round((matchedSkills.length / domainSkills.length) * 100);
+    fetch("https://vri-projects-backend.onrender.com/mapping", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        syllabus: courseDescription,
+        skills: selectedSkills
+      })
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setResults(data);
+      })
+      .catch((err) => {
+        console.error("Mapping failed:", err);
+        alert("Error occurred while analyzing the course.");
+      })
+      .finally(() => {
+        setIsAnalyzing(false);
+      });
 
-    return {
-      matchedSkills,
-      missingSkills: missingSkills.slice(0, 5),
-      coverage,
-      recommendations: generateRecommendations(coverage, missingSkills.slice(0, 3))
-    };
-  };
-
-  const generateRecommendations = (coverage, missingSkills) => {
-    const rec = [];
-    if (coverage < 60) rec.push('Consider adding more hands-on projects to cover essential skills');
-    if (coverage < 80) rec.push('Include practical exercises for missing skills');
-    if (missingSkills.length > 0) rec.push(`Focus on incorporating: ${missingSkills.join(', ')}`);
-    return rec;
   };
 
   const resetForm = () => {
