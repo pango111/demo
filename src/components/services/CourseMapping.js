@@ -112,8 +112,8 @@ const CourseMapping = ({ setCurrentPage }) => {
 
     // 抓取目标skills
     const selectedSkills = skillSets[targetDomain] || [];
-
-    fetch("https://vri-projects-backend.onrender.com/mapping", {
+// "https://vri-projects-backend.onrender.com/mapping"
+    fetch("https://vri-projects-backend-gyqo.onrender.com/mapping", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
